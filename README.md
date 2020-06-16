@@ -7,6 +7,10 @@ Allow to employees of a company to vote about the tech/soft skills of their part
 - Postman
 
 # Running Local
+- add a .env file whit this content
+  ```
+  JWT_SECRET={{TOP_SECRET_VALUE}}
+  ```
 - npm install
 - npm start
 
