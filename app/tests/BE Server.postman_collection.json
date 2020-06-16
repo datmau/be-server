@@ -1,0 +1,703 @@
+{
+	"info": {
+		"_postman_id": "34d0b53a-6aec-4239-a04e-c365db71c001",
+		"name": "BE Server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Root Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "722ef6c3-f24c-4e46-ad03-dc81671e861f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be98e5af-8a6c-4f0e-918e-bc5d2c401dd7",
+						"exec": [
+							"pm.globals.set(\"url\", \"localhost:3000\");",
+							"pm.globals.set(\"employee1\", \"Alex\");",
+							"pm.globals.set(\"pass1\", \"12345\");",
+							"pm.globals.set(\"employee2\", \"Sara\");",
+							"pm.globals.set(\"pass2\", \"6789\");",
+							"pm.globals.set(\"admin\", \"Administrator\");",
+							"pm.globals.set(\"passAdmin\", \"@dm1n\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				},
+				"description": "Call to the root path of BE server."
+			},
+			"response": []
+		},
+		{
+			"name": "Register new Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8438f241-c156-48ad-bd70-76f64214235b",
+						"exec": [
+							"var loginData = JSON.parse(responseBody);",
+							"pm.globals.set(\"employee1Id\", loginData.data._id);",
+							"",
+							"pm.test(\"Should be return 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{employee1}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{pass1}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register new Employee 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8438f241-c156-48ad-bd70-76f64214235b",
+						"exec": [
+							"var loginData = JSON.parse(responseBody);",
+							"pm.globals.set(\"employee2Id\", loginData.data._id);",
+							"",
+							"pm.test(\"Should be return 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{employee2}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{pass2}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "681d9629-04e2-464b-aa6b-108162b39bc9",
+						"exec": [
+							"var loginData = JSON.parse(responseBody);",
+							"",
+							"pm.globals.set(\"employee1Token\", loginData.token);",
+							"",
+							"pm.test(\"Should be return 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{employee1}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{pass1}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all employees without permission",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2afc04ad-f340-4bf1-b24a-d728208d99cb",
+						"exec": [
+							"var responseData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Should be return 401\", function(){",
+							"    pm.response.to.have.status(401);",
+							"})",
+							"",
+							"tests[\"Show error message\"] = responseData.error === \"You don't have enough permission to perform this action\"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{employee1Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{employee1}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/employees",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register new Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b37e94bc-b598-4d3e-9b96-d50b61594ae2",
+						"exec": [
+							"var registerData = JSON.parse(responseBody);",
+							"",
+							"pm.globals.set(\"adminId\", registerData.data._id);",
+							"",
+							"pm.test(\"Should be return 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{admin}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{passAdmin}}",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "admin",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c3c179a-3766-40c6-aab1-b8dd861b793c",
+						"exec": [
+							"var loginData = JSON.parse(responseBody);",
+							"",
+							"pm.globals.set(\"adminToken\", loginData.token);",
+							"",
+							"pm.test(\"Should be return 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{admin}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{passAdmin}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all employees with permission",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "20ae0ea4-0d7f-428c-88f9-ceea6228a0fe",
+						"exec": [
+							"var responseData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Should be return 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"",
+							"pm.globals.set(\"employeesNumber\", responseData.data);",
+							"tests[\"Return at least one employee\"] =  responseData.data.length >= 1",
+							"tests[\"Count: \"  +  responseData.data.length] = true;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "{{adminToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/employees?username={{admin}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employees"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{admin}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get especific user area votes.",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{adminToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/employee/{{employee1Id}}/skills",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee",
+						"{{employee1Id}}",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "681d9629-04e2-464b-aa6b-108162b39bc9",
+						"exec": [
+							"var loginData = JSON.parse(responseBody);",
+							"",
+							"pm.globals.set(\"employee2Token\", loginData.token);",
+							"",
+							"pm.test(\"Should be return 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{employee2}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{pass2}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Votes to employee 1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{employee2Token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"skills\": [\n        {\n            \"name\": \"Area 1\",\n            \"messages\": [\n                {\n                    \"username\": \"{{employee2}}\",\n                    \"message\": \"Some Message\",\n                    \"updatedAt\": \"2020-06-16\"\n                }\n            ]\n        },\n        {\n            \"name\": \"Area 2\",\n            \"messages\": [\n                {\n                    \"username\": \"{{employee2}}\",\n                    \"message\": \"Some Message\",\n                    \"updatedAt\": \"2020-06-16\"\n                }\n            ]\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/employees/{{employee1Id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employees",
+						"{{employee1Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Total User Registered",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e1f18c02-f5a3-439d-b820-8d66bb695797",
+						"exec": [
+							"var responseData = JSON.parse(responseBody);",
+							"var employeeNumber = employeesNumber",
+							"",
+							"pm.test(\"Should be return 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"tests[\"Registered employees same as all employees length\"] =  responseData.data.registeredEmployees === employeeNumber",
+							"tests[\"Count: \"  +  responseData.data.length] = true;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{adminToken}}",
+						"equals": true
+					}
+				],
+				"url": {
+					"raw": "{{url}}/employees/registered",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employees",
+						"registered"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"protocolProfileBehavior": {}
+}
