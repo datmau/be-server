@@ -45,12 +45,17 @@ async function validatePassword(textPassword, hashedPassword) {
 
 exports.signup = async (req, res, next) => {
   try {
-    const { username, password, role } = req.body;
+    const { username, password, role, email } = req.body; // Añadido email
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
     const hashedPassword = await hashPassword(password);
     const newUser = new User({
       username,
+      email, // Añadido
       password: hashedPassword,
       role: role || "employee",
+      createdAt: new Date() // Añadido timestamp
     });
     const accessToken = jwt.sign(
       { userId: newUser._id },
