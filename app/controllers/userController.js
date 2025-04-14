@@ -94,7 +94,10 @@ exports.login = async (req, res, next) => {
 exports.getEmployees = async (req, res, next) => {
   try {
     const name = req.query.username;
-    const employees = await User.find({ username: { $ne: name } });
+    const employees = await User.find({ 
+      username: { $ne: name },
+      role: { $ne: "admin" } // Cambio en master
+    });
     res.status(200).json({
       data: employees,
     });
