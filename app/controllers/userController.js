@@ -40,17 +40,27 @@ async function hashPassword(password) {
 }
 
 async function validatePassword(textPassword, hashedPassword) {
-  return await bcrypt.compare(textPassword, hashedPassword);
+  if (!textPassword || !hashedPassword) {
+    throw new Error("Both passwords are required for comparison");
+  }
+  const result = await bcrypt.compare(textPassword, hashedPassword);
+  console.log(`Login attempt result: ${result}`);
+  return result;
 }
 
 exports.signup = async (req, res, next) => {
   try {
     const { username, password, role } = req.body;
+    // Validación añadida en la nueva rama
+    if (password.length < 8) {
+      return res.status(400).json({ error: "Password must be at least 8 characters" });
+    }
     const hashedPassword = await hashPassword(password);
     const newUser = new User({
       username,
       password: hashedPassword,
       role: role || "employee",
+      isActive: true // Campo nuevo
     });
     const accessToken = jwt.sign(
       { userId: newUser._id },
