@@ -94,9 +94,13 @@ exports.login = async (req, res, next) => {
 exports.getEmployees = async (req, res, next) => {
   try {
     const name = req.query.username;
-    const employees = await User.find({ username: { $ne: name } });
+    const employees = await User.find({ 
+      username: { $ne: name },
+      isActive: true // Cambio en la nueva rama
+    }).select('-password -accessToken'); // Otro cambio
     res.status(200).json({
       data: employees,
+      count: employees.length // Cambio adicional
     });
   } catch (error) {
     next(error);
