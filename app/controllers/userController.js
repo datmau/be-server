@@ -40,7 +40,12 @@ async function hashPassword(password) {
 }
 
 async function validatePassword(textPassword, hashedPassword) {
-  return await bcrypt.compare(textPassword, hashedPassword);
+  if (!textPassword || !hashedPassword) {
+    throw new Error("Both passwords are required for comparison");
+  }
+  const result = await bcrypt.compare(textPassword, hashedPassword);
+  console.log(`Login attempt result: ${result}`);
+  return result;
 }
 
 exports.signup = async (req, res, next) => {
@@ -52,10 +57,11 @@ exports.signup = async (req, res, next) => {
     const hashedPassword = await hashPassword(password);
     const newUser = new User({
       username,
-      email, // Añadido
+      email,
       password: hashedPassword,
       role: role || "employee",
-      createdAt: new Date() // Añadido timestamp
+      createdAt: new Date(),
+      isActive: true
     });
     const accessToken = jwt.sign(
       { userId: newUser._id },
@@ -101,10 +107,12 @@ exports.getEmployees = async (req, res, next) => {
     const name = req.query.username;
     const employees = await User.find({ 
       username: { $ne: name },
-      role: { $ne: "admin" } // Cambio en master
-    });
+      role: { $ne: "admin" }, // Cambio en master
+      isActive: true // Cambio en la nueva rama
+    }).select('-password -accessToken');
     res.status(200).json({
       data: employees,
+      count: employees.length // Cambio adicional
     });
   } catch (error) {
     next(error);
