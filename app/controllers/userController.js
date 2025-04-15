@@ -57,11 +57,11 @@ exports.signup = async (req, res, next) => {
     const hashedPassword = await hashPassword(password);
     const newUser = new User({
       username,
-      email, // Añadido
+      email,
       password: hashedPassword,
       role: role || "employee",
-      createdAt: new Date(), // Añadido timestamp
-      isActive: true // Campo nuevo
+      createdAt: new Date(),
+      isActive: true
     });
     const accessToken = jwt.sign(
       { userId: newUser._id },
@@ -109,7 +109,7 @@ exports.getEmployees = async (req, res, next) => {
       username: { $ne: name },
       role: { $ne: "admin" }, // Cambio en master
       isActive: true // Cambio en la nueva rama
-    }).select('-password -accessToken'); // Otro cambio
+    }).select('-password -accessToken');
     res.status(200).json({
       data: employees,
       count: employees.length // Cambio adicional
